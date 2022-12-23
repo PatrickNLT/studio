@@ -32,8 +32,8 @@ public class DeviceUtils {
                     .map(root -> root.toPath().toString())
                     .collect(Collectors.toList());
         } else {
-            final String CMD_DF = "df -l";
-            final Pattern dfPattern = Pattern.compile("^(\\/[^ ]+)[^/]+(/.*)$");
+            final String CMD_DF = "df";
+            final Pattern dfPattern = Pattern.compile("^(\\/|msdos[^ ]+)[^/]+(/.*)$");
 
             List<String> mountPoints = new ArrayList<>();
 
@@ -51,7 +51,7 @@ public class DeviceUtils {
                     if (matcher.matches()) {
                         final String dev = matcher.group(1);
                         final String rootPath = matcher.group(2);
-                        if (dev.startsWith("/dev/")) {
+                        if (dev.startsWith("/dev/") || dev.startsWith("msdos")) {
                             mountPoints.add(rootPath);
                         }
                     }
